@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
 export default function Signup() {
   const [email, setEmail] = useState();
   const [username, setUsername] = useState();
@@ -16,7 +17,7 @@ export default function Signup() {
       return;
     }
 
-    const response = await fetch(`${process.env.SERVER}/auth/signup`, {
+    const response = await fetch(`http://localhost:5000/api/auth/signup`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

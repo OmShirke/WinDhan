@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const signup = async (req, res, next) => {
   const { username, password } = req.body;
   const email = await req.body.email.toLowerCase();
@@ -25,6 +26,7 @@ const signup = async (req, res, next) => {
   }
   next();
 };
+
 const login = async (req, res, next) => {
   try {
     const email = req.body.email.toLowerCase();
@@ -45,6 +47,11 @@ const login = async (req, res, next) => {
     console.log(error);
   }
   next();
+
+  exports.signup = async (req, res) => {
+    console.log("Signup route hit!", req.body);
+    res.json({ message: "Signup successful!" });
+  };
 };
 
 module.exports = { signup, login };

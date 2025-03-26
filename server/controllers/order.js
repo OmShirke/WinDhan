@@ -1,6 +1,7 @@
 const orderModel = require("../models/orderModel");
 const orderBookModel = require("../models/orderBookmodel");
 const eventModel = require("../models/eventModel");
+
 async function matchOrder(newOrder, orderbook) {
   const oppositeBook = newOrder.option === "yes" ? orderbook.no : orderbook.yes;
 
@@ -79,7 +80,7 @@ const order = async (req, res, next) => {
 
     const existing_event = await eventModel.findOne({ _id: event._id });
     if (!existing_event) {
-      return res.staus(404).jsonp({ error: "not found" });
+      return res.status(404).jsonp({ error: "not found" });
     }
     const newOrder = await orderModel.create({
       option,

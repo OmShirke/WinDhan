@@ -6,7 +6,7 @@ mongoose.connect(process.env.MONGODB);
 const cors = require("cors");
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -30,5 +30,5 @@ app.use("/events/orderbook", orderbookRoute);
 app.use("/api/auth", auth_route);
 app.use("/user", auth_route);
 app.listen(process.env.PORT, () => {
-  console.log("server listening on ", process.env.PORT);
+  console.log("server listening on ", process.env.PORT || 5000);
 });

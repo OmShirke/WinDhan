@@ -10,7 +10,7 @@ export default function Login(props) {
   const navigate = useNavigate();
   const loginUser = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:8080/api/auth/login", {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -104,3 +104,10 @@ export default function Login(props) {
     </>
   );
 }
+
+/*
+   "email": "admin111@gmail.com",
+   "username": "admin",
+   "password": "password111",
+   "role":"admin"
+}*/
