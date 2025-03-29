@@ -104,10 +104,3 @@ export default function Login(props) {
     </>
   );
 }
-
-/*
-   "email": "admin111@gmail.com",
-   "username": "admin",
-   "password": "password111",
-   "role":"admin"
-}*/

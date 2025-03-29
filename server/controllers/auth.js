@@ -47,11 +47,6 @@ const login = async (req, res, next) => {
     console.log(error);
   }
   next();
-
-  exports.signup = async (req, res) => {
-    console.log("Signup route hit!", req.body);
-    res.json({ message: "Signup successful!" });
-  };
 };
 
 module.exports = { signup, login };

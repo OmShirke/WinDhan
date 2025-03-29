@@ -10,7 +10,7 @@ export default function CreateEvent(props) {
 
   const eventSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.SERVER}/worker/event`, {
+    const response = await fetch("http://localhost:5000/worker/event", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ title, yes, no, startTime, endTime, description }),

@@ -6,7 +6,7 @@ function Events(props) {
   const [events, setEvents] = useState([""]);
   const [descriptions, setDescriptions] = useState([]);
   const getResponse = async () => {
-    const response = await fetch(`${process.env.SERVER}/worker/event`, {
+    const response = await fetch("http://localhost:5000/worker/event", {
       method: "GET",
       headers: {
         "content-type": "application/json",

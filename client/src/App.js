@@ -5,29 +5,40 @@ import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Events from "./components/admin/AllEvents";
-//function starts here
+import CreateEvent from "./components/admin/createEvent";
+
 function App() {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
   const [role, setRole] = useState();
   const getResponse = async () => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) setToken(JSON.parse(storedToken));
 
-    const response = await fetch(`${process.env.SERVER}/user`, {
+    if (!storedToken) {
+      console.log("No token found in localStorage");
+      return;
+    }
+
+    const token = JSON.parse(storedToken); // Parse token once
+
+    const response = await fetch("http://localhost:5000/user", {
       method: "GET",
       headers: {
         "content-type": "application/json",
-        Authorization: `Bearer ${token} `,
+        Authorization: `Bearer ${token}`,
       },
     });
+
     if (response.status === 200) {
       const json = await response.json();
-
       setUser(json.user);
       setRole(json.role);
+      console.log("User Role:", json.role);
+    } else {
+      console.log("Unauthorized: Invalid token");
     }
   };
+
   useEffect(() => {
     getResponse();
   }, [token]);
@@ -46,7 +57,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           {role === "admin" ? (
-            <Route index element={<Events />} />
+            <>
+              <Route index element={<Events />} />
+              <Route path="/createEvent" element={<CreateEvent />} />
+            </>
           ) : (
             <Route index element={<Home user={user} />} />
           )}
