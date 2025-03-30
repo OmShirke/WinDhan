@@ -10,7 +10,7 @@ function EventDetails(props) {
   const [option, setOption] = useState("yes");
   const [paragraph, setParagraph] = useState(false);
   const getResponse = async (event) => {
-    const response = await fetch(`${process.env.SERVER}/events/orderbook`, {
+    const response = await fetch("http://localhost:5000/events/orderbook", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ event }),

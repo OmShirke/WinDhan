@@ -36,7 +36,7 @@ function Order(props) {
   }, []);
 
   const placeOrder = async () => {
-    const response = await fetch(`${process.env.SERVER}/events/order`, {
+    const response = await fetch("http://localhost:5000/events/order", {
       method: "POST",
       headers: {
         "content-type": "application/json",
