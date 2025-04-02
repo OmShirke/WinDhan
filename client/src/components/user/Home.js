@@ -21,7 +21,10 @@ const Home = (props) => {
           {user ? (
             <>
               <div>{user}</div>
-              <div onClick={logout}>Logout</div>
+              <Link to="/profile">Profile</Link> {/* Add Profile Button */}
+              <div onClick={logout} className="cursor-pointer">
+                Logout
+              </div>
             </>
           ) : (
             <>

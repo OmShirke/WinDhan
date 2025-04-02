@@ -8,8 +8,4 @@ router.route("/login").post(Auth.login);
 router.route("/signup").post(Auth.signup);
 router.route("/").get(isLoggedin, getUser);
 
-router.get("/test", (req, res) => {
-  res.json({ message: "Auth route is working!" });
-});
-
 module.exports = router;

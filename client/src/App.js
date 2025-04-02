@@ -6,6 +6,7 @@ import Signup from "./components/user/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Events from "./components/admin/AllEvents";
 import CreateEvent from "./components/admin/createEvent";
+import Profile from "./components/user/Profile";
 
 function App() {
   const [token, setToken] = useState();
@@ -64,6 +65,8 @@ function App() {
           ) : (
             <Route index element={<Home user={user} />} />
           )}
+          <Route path="profile" element={<Profile />} />
+
           <Route path="Login" element={<Login setToken={setToken} />} />
           <Route path="Signup" element={<Signup />} />
         </Routes>
