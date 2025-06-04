@@ -5,6 +5,9 @@ function Events(props) {
   const { eventDetail, setEventDetail } = props;
   const [events, setEvents] = useState([""]);
   const [descriptions, setDescriptions] = useState([]);
+
+  // Fetching events from the server
+  // and setting the state
   const getResponse = async () => {
     const response = await fetch("http://localhost:5000/worker/event", {
       method: "GET",
@@ -18,6 +21,7 @@ function Events(props) {
       setDescriptions(json.description);
     }
   };
+
   useEffect(() => {
     getResponse();
   }, []);

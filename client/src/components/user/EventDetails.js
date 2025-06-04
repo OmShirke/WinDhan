@@ -48,6 +48,8 @@ function EventDetails(props) {
             </g>
           </svg>
         </div>
+
+        {/* Main event */}
         <div
           className={`sm:[${
             !paragraph ? " h-[300px] overflow-hidden  " : "h-screen"
@@ -60,9 +62,12 @@ function EventDetails(props) {
             </p>
           ))}
         </div>
+
+        {/*hide and read more  */}
+
         {!paragraph ? (
           <span
-            className="text-blue-500 -mt-10 cursor-pointer"
+            className="text-blue-500 -mt-10 cursor-pointer "
             onClick={() => {
               setParagraph(true);
             }}
@@ -79,49 +84,54 @@ function EventDetails(props) {
             Hide
           </span>
         )}
-        <div className="bg-slate-50 w-full p-4 rounded-lg shadow-md text-center gap-5 flex flex-col lg:w-1/2 self-center">
-          <div className="text-2xl text-blue-300 font-semibold text-center">
-            Order Book
-          </div>
-          <div className="flex gap-2 border-2 border-blue-50 font-semibold">
-            <table className="w-1/2 text-center ">
-              <tbody className="*:border-b-2 ">
-                <tr>
-                  <th>
-                    Orders at <span className="text-green-300">Yes</span>
-                  </th>
-                  <th>
-                    Quantity <span className="text-green-300">Yes</span>
-                  </th>
-                </tr>
-                {yesbook.map((order, index) => (
-                  <tr key={index}>
-                    <td>₹ {order.price}</td>
-                    <td>{order.quantity}</td>
+
+        {/* Order Book */}
+        {paragraph && (
+          <div className="bg-slate-50 w-full p-4 rounded-lg shadow-md text-center gap-5 flex flex-col lg:w-1/2 self-center">
+            <div className="text-2xl text-blue-300 font-semibold text-center">
+              Order Book
+            </div>
+            <div className="flex gap-2 border-2 border-blue-50 font-semibold">
+              <table className="w-1/2 text-center ">
+                <tbody className="*:border-b-2 ">
+                  <tr>
+                    <th>
+                      Orders at <span className="text-green-300">Yes</span>
+                    </th>
+                    <th>
+                      Quantity <span className="text-green-300">Yes</span>
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <table className="w-1/2  text-center">
-              <tbody className="*:border-b-2 ">
-                <tr>
-                  <th>
-                    Orders at <span className="text-red-300">No</span>
-                  </th>
-                  <th>
-                    Quantity at <span className="text-red-300">No</span>
-                  </th>
-                </tr>
-                {nobook.map((order, index) => (
-                  <tr key={index}>
-                    <td>₹ {order.price}</td>
-                    <td>{order.quantity}</td>
+                  {yesbook.map((order, index) => (
+                    <tr key={index}>
+                      <td>₹ {order.price}</td>
+                      <td>{order.quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <table className="w-1/2  text-center">
+                <tbody className="*:border-b-2 ">
+                  <tr>
+                    <th>
+                      Orders at <span className="text-red-300">No</span>
+                    </th>
+                    <th>
+                      Quantity at <span className="text-red-300">No</span>
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  {nobook.map((order, index) => (
+                    <tr key={index}>
+                      <td>₹ {order.price}</td>
+                      <td>{order.quantity}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        )}
+
         <div className=" w-full h-fit -ml-10 bottom-0 absolute">
           <div
             className="flex   w-full    justify-evenly   p-5 gap-5 bg-gray-50 shadow-md  md:absolute
