@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Events from "./Events.js";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "./navbar.js";
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -12,28 +13,11 @@ const Home = (props) => {
   const [eventDetail, setEventDetail] = useState(null);
   return (
     <>
-      <div className="sticky top-0 bg-slate-100 rounded-sm w-full shadow-lg p-5 flex  justify-between z-20">
-        <div className=" text-center text-xl   text-blue-500 font-bold  font-[cursive]  ">
-          TradeRay
-        </div>
 
-        <div className="flex gap-9 text-md text-blue-700">
-          {user ? (
-            <>
-              <div>{user}</div>
-              <Link to="/profile">Profile</Link> {/* Add Profile Button */}
-              <div onClick={logout} className="cursor-pointer">
-                Logout
-              </div>
-            </>
-          ) : (
-            <>
-              <Link to="Login">Login</Link>
-              <Link to="Signup">Signup</Link>
-            </>
-          )}
-        </div>
-      </div>
+      {/* Navbar Navbar Navbar */}
+      <Navbar user={user} onLogout={logout} />
+
+
       <main
         className={`text-center p-5 flex flex-col gap-10 text-lg z-0    ${
           eventDetail !== null ? "hidden " : ""
