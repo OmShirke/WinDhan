@@ -31,9 +31,10 @@ function EventDetails(props) {
   }, []);
   return (
     <>
-      <div className="w-full h-full bg-white absolute left-0 top-20 p-10 flex flex-col gap-10 ">
+      <div className="w-20vw h-20vh relative bg-white  p-10 flex flex-col gap-10 w-max m-auto ">
+        {/* Main event */}
         <div
-          className=" absolute top-2 left-1 w-10"
+          className=" absolute h-20 w-20 z-50 top-[-180px] left-[-100px] mt-32"
           onClick={() => {
             props.setEventDetail(null);
           }}
@@ -48,12 +49,9 @@ function EventDetails(props) {
             </g>
           </svg>
         </div>
-
-        {/* Main event */}
         <div
-          className={`sm:[${
-            !paragraph ? " h-[300px] overflow-hidden  " : "h-screen"
-          }]   `}
+          className={`sm:[${!paragraph ? " h-[100px] overflow-hidden  " : "h-screen"
+            }]   `}
         >
           <h1 className="text-4xl p-2 font-bold ">{event.title}</h1>
           {descriptions.map((description, index) => (
@@ -87,43 +85,39 @@ function EventDetails(props) {
 
         {/* Order Book */}
         {paragraph && (
-          <div className="bg-slate-50 w-full p-4 rounded-lg shadow-md text-center gap-5 flex flex-col lg:w-1/2 self-center">
-            <div className="text-2xl text-blue-300 font-semibold text-center">
-              Order Book
-            </div>
-            <div className="flex gap-2 border-2 border-blue-50 font-semibold">
-              <table className="w-1/2 text-center ">
-                <tbody className="*:border-b-2 ">
-                  <tr>
-                    <th>
-                      Orders at <span className="text-green-300">Yes</span>
-                    </th>
-                    <th>
-                      Quantity <span className="text-green-300">Yes</span>
-                    </th>
+          <div className="bg-slate-50 p-6 rounded-lg shadow-md text-center gap-5 flex flex-col lg:w-1/2 self-center ">
+            <div className="text-2xl text-blue-400 font-semibold">Order Book</div>
+
+            <div className="flex gap-4 p-4 bg-white rounded-md">
+              <table className="w-1/2 text-center border border-green-900 rounded-md overflow-hidden">
+                <thead>
+                  <tr className="bg-green-50">
+                    <th className="py-2 px-3 border-b">Price <span className="text-green-400">(Yes)</span></th>
+                    <th className="py-2 px-3 border-b">Qty</th>
                   </tr>
+                </thead>
+                <tbody>
                   {yesbook.map((order, index) => (
                     <tr key={index}>
-                      <td>₹ {order.price}</td>
-                      <td>{order.quantity}</td>
+                      <td className="py-2 px-3 border-b">₹ {order.price}</td>
+                      <td className="py-2 px-3 border-b">{order.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <table className="w-1/2  text-center">
-                <tbody className="*:border-b-2 ">
-                  <tr>
-                    <th>
-                      Orders at <span className="text-red-300">No</span>
-                    </th>
-                    <th>
-                      Quantity at <span className="text-red-300">No</span>
-                    </th>
+
+              <table className="w-1/2 text-center border border-red-800 rounded-md overflow-hidden">
+                <thead>
+                  <tr className="bg-red-50">
+                    <th className="py-2 px-3 border-b">Price <span className="text-red-400">(No)</span></th>
+                    <th className="py-2 px-3 border-b">Qty</th>
                   </tr>
+                </thead>
+                <tbody>
                   {nobook.map((order, index) => (
                     <tr key={index}>
-                      <td>₹ {order.price}</td>
-                      <td>{order.quantity}</td>
+                      <td className="py-2 px-3 border-b">₹ {order.price}</td>
+                      <td className="py-2 px-3 border-b">{order.quantity}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -131,6 +125,7 @@ function EventDetails(props) {
             </div>
           </div>
         )}
+
 
         <div className=" w-full h-fit -ml-10 bottom-0 absolute">
           <div
