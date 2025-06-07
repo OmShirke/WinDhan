@@ -24,108 +24,96 @@ export default function CreateEvent(props) {
       console.log(json.message);
     }
   };
+
   return (
-    <>
-      <div className=" absolute top-0 left-0 bg-black bg-opacity-50  hover:cursor-not-allowed   w-screen h-[100svh] p-20 flex justify-center  flex-wrap ">
-        <div className="bg-zinc-800 h-fit   w-fit  p-5 rounded-2xl hover:cursor-default text-slate-100  ">
-          <button
-            onClick={() => {
-              props.setEventDialog(false);
-            }}
-            className="relative right-7 -top-5 text-2xl p-1 font-semibold w-8 text-center hover:text-zinc-400 active:text-black"
-          >
-            x
-          </button>
-          <form
-            className="font-sans flex flex-col gap-10 "
-            onSubmit={eventSubmit}
-          >
-            <input
-              autoFocus
-              type="text"
-              className="block w-full capitalize bg-transparent   border-b-2  border-zinc-900  p-2 text-xl focus: outline-none placeholder:text-2xl  "
-              placeholder="enter Event Name"
-              name="title"
-              required
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-            />
-            <textarea
-              className="resize-none block w-full capitalize bg-transparent   border-b-2  border-zinc-900  p-2 text-xl focus: outline-none placeholder:text-2xl  "
-              placeholder="enter Event Description"
-              name="title"
-              required
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-            ></textarea>
-            <div className="flex justify-evenly gap-1">
-              <label htmlFor="yes" className="place-self-center text-lg">
-                Yes% :
-              </label>
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-60 flex items-center justify-center p-4">
+      <div className="bg-[#1E293B] text-[#F1F5F9] rounded-2xl w-full max-w-lg p-6 shadow-xl relative">
+        {/* Back arrow button */}
+        <button
+          onClick={() => props.setEventDialog(false)}
+          className="absolute top-4 left-4 text-xl font-bold hover:text-gray-400 transition"
+          title="Back"
+        >
+          ←
+        </button>
+
+        {/* Close button */}
+        <button
+          onClick={() => props.setEventDialog(false)}
+          className="absolute top-4 right-6 text-xl font-bold hover:text-gray-400 transition"
+          title="Close"
+        >
+          ×
+        </button>
+
+        <form className="flex flex-col gap-6 mt-10" onSubmit={eventSubmit}>
+          <input
+            autoFocus
+            type="text"
+            placeholder="Enter Event Name"
+            required
+            onChange={(e) => setTitle(e.target.value)}
+            className="bg-transparent border-b border-slate-500 p-2 text-lg placeholder:text-slate-400 focus:outline-none focus:border-blue-400 transition"
+          />
+          <textarea
+            placeholder="Enter Event Description"
+            required
+            onChange={(e) => setDescription(e.target.value)}
+            className="resize-none bg-transparent border-b border-slate-500 p-2 text-lg placeholder:text-slate-400 focus:outline-none focus:border-blue-400 transition"
+          />
+          <div className="flex justify-between gap-4">
+            <label className="flex items-center gap-2 text-sm sm:text-base">
+              Yes%
               <input
                 type="number"
-                className=" w-32 bg-transparent  border-b-2  border-zinc-900  p-2 text-xl focus: outline-none  "
-                placeholder="Yes"
                 name="yes"
+                required
                 min={1}
                 max={99}
-                required
-                onChange={(e) => {
-                  setYes(e.target.value);
-                }}
+                onChange={(e) => setYes(e.target.value)}
+                className="w-20 bg-transparent border-b border-slate-500 p-1 focus:outline-none focus:border-blue-400 text-center"
               />
-              <label htmlFor="no" className="self-center text-lg">
-                No% :
-              </label>
-
+            </label>
+            <label className="flex items-center gap-2 text-sm sm:text-base">
+              No%
               <input
                 type="number"
-                className="w-32 border-b-2 bg-transparent   border-zinc-900  p-2 text-xl focus: outline-none   "
-                placeholder="No"
                 name="no"
                 required
                 min={1}
                 max={99}
-                onChange={(e) => {
-                  setNo(e.target.value);
-                }}
+                onChange={(e) => setNo(e.target.value)}
+                className="w-20 bg-transparent border-b border-slate-500 p-1 focus:outline-none focus:border-blue-400 text-center"
               />
-            </div>
-            <div className="flex gap-1">
-              <label htmlFor="startTime" className="self-center text-lg">
-                Start Time
-              </label>
+            </label>
+          </div>
+          <div className="flex justify-between gap-4 text-sm sm:text-base">
+            <label className="flex items-center gap-2">
+              Start Time
               <input
+                type="time"
                 name="startTime"
-                type="time"
-                className="w-22  p-2  text-sm focus: outline-none  bg-blue-400 rounded-xl "
-                onChange={(e) => {
-                  setStartTime(e.target.value);
-                }}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="bg-blue-500 text-black px-2 py-1 rounded-lg focus:outline-none"
               />
-              <label htmlFor="endTime" className="self-center text-lg">
-                End Time
-              </label>
+            </label>
+            <label className="flex items-center gap-2">
+              End Time
               <input
-                name="endTime"
                 type="time"
-                onChange={(e) => {
-                  setEndTime(e.target.value);
-                }}
-                className="w-22  p-2  text-sm focus: outline-none  bg-blue-400 rounded-xl "
+                name="endTime"
+                onChange={(e) => setEndTime(e.target.value)}
+                className="bg-blue-500 text-black px-2 py-1 rounded-lg focus:outline-none"
               />
-            </div>
-
-            <input
-              type="submit"
-              value="create"
-              className="bg-yellow-400 rounded-md w-24 p-3 font-bold active:bg-yellow-300  hover:bg-yellow-500 hover:cursor-pointer self-center"
-            />
-          </form>
-        </div>
+            </label>
+          </div>
+          <input
+            type="submit"
+            value="Create"
+            className="bg-yellow-400 text-black rounded-md py-2 font-bold hover:bg-yellow-500 active:bg-yellow-300 transition w-32 self-center"
+          />
+        </form>
       </div>
-    </>
+    </div>
   );
 }

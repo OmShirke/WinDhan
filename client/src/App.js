@@ -7,6 +7,7 @@ import AdminEvents from "./components/admin/AllEvents";
 import CreateEvent from "./components/admin/createEvent";
 import Profile from "./components/user/Profile";
 import UserEvents from "./components/user/Events"; // Your Events component
+import Allusers from "./components/admin/Allusers"
 
 function App() {
   const [token, setToken] = useState();
@@ -64,6 +65,7 @@ function App() {
         <Route path="events" element={<UserEvents eventDetail={eventDetail} setEventDetail={setEventDetail} />} />
         <Route path="login" element={<Login setToken={setToken} />} />
         <Route path="signup" element={<Signup />} />
+        <Route path="/all-users" element={<Allusers />} />
       </Routes>
     </BrowserRouter>
   );

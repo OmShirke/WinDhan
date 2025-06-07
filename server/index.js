@@ -31,6 +31,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookies());
 app.use(bodyParser.json());
 app.use(express.json());
+app.use("/api/admin", require("./routes/adminroute.js")); 
+
 
 // Routes
 const authRoute = require("./routes/authRoute.js");
