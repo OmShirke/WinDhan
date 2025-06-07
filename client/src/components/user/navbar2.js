@@ -1,4 +1,3 @@
-// src/components/Navbar2.jsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,25 +10,50 @@ const Navbar2 = ({ user, onLogout }) => {
   };
 
   return (
-    <nav className="sticky top-0 bg-slate-100 rounded-sm w-full shadow-lg p-5 flex justify-between z-20">
+    <nav className="sticky top-0 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-xl p-6 flex justify-between items-center z-20">
       {/* app name */}
-      <div className="text-xl text-blue-500 font-bold font-[cursive]">
+      <div className="text-3xl text-purple-400 font-bold font-orbitron tracking-wide select-none">
         <Link to="/">Windhan</Link>
       </div>
 
-      <div className="flex gap-9 text-md text-blue-700 items-center">
-        <Link to="/">Home</Link>
-        <button onClick={handleLogout} className="cursor-pointer">
-          Logout
-        </button>
-        {user && (
-          <Link to="/profile">
-            <span className="pr-4 font-semibold bg-slate-500 text-white rounded-full px-4 py-1">
-              {user}
-            </span>
-          </Link>
-        )}
+      <div className="flex gap-12 text-lg text-gray-300 items-center font-poppins">
+        <Link
+          to="/"
+          className="hover:text-purple-400 transition-colors duration-300"
+        >
+          Home
+        </Link>
 
+        {user ? (
+          <>
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer hover:text-purple-400 transition-colors duration-300 font-semibold"
+            >
+              Logout
+            </button>
+            <Link to="/profile">
+              <span className="pr-6 font-semibold bg-gray-700 border border-gray-600 rounded-full px-5 py-2 select-text text-purple-300">
+                {user}
+              </span>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/Login"
+              className="hover:text-purple-400 transition-colors duration-300"
+            >
+              Login
+            </Link>
+            <Link
+              to="/Signup"
+              className="hover:text-purple-400 transition-colors duration-300"
+            >
+              Signup
+            </Link>
+          </>
+        )}
       </div>
     </nav>
   );

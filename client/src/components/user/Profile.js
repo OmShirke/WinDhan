@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "./navbar2";
 import profilePic from "../pictures/profilePic.jpg";
+
 const Profile = ({ user }) => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
@@ -14,10 +15,7 @@ const Profile = ({ user }) => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found");
-        return;
-      }
+      if (!token) return;
 
       const response = await fetch("http://localhost:5000/api/user/profile", {
         method: "GET",
@@ -27,9 +25,7 @@ const Profile = ({ user }) => {
         },
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch profile");
-      }
+      if (!response.ok) throw new Error("Failed to fetch profile");
 
       const data = await response.json();
       setUserData(data);
@@ -43,98 +39,114 @@ const Profile = ({ user }) => {
   }, []);
 
   return (
-    <div className="profile-parent">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 text-gray-300 font-sans">
       <Navbar2 user={user} onLogout={logout} />
 
-      <div className="bg-slate-300 min-h-[80vh] ">
+      {/* Back Button */}
+      <div className="px-4 pt-4">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center text-cyan-400 hover:text-cyan-200 font-semibold text-sm"
+        >
+          {/* Simple left arrow SVG */}
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Back to Home
+        </button>
+      </div>
 
-        {/* profile card */}
-
-        <div className="p-5 m-auto w-[30vw] bg-white mt-6 rounded-[50px] min-h-[80vh] border border-slate-400">
-          {/* profile picture */}
-          <div className="color bg-slate-300 p-4  rounded-md">
-            <div className="flex flex-row w-max mx-auto">
-
-              <div className="profile-picture w-max ">
-                <img src={profilePic} alt="Profile" className="max-w-36 h-36 rounded-full object-contain" />
-              </div>
-
-              <div className="right pt-5">
-                {userData && (
-                  <div className="text-left pl-[21px]">
-                    <p className="text-6xl mt-2 font-semibold">{userData.username}</p>
-                    <p>{userData.email}</p>
-                  </div>
-                )}
-
-              </div>
-            </div>
+      <div className="flex justify-center pt-6 px-2">
+        <div className="w-full max-w-sm bg-gray-900/70 border border-gray-800 rounded-xl p-5 shadow-md shadow-cyan-800/30">
+          {/* Profile Header */}
+          <div className="flex flex-col items-center text-center gap-3">
+            <img
+              src={profilePic}
+              alt="Profile"
+              className="w-24 h-24 rounded-full border-2 border-cyan-400 object-cover shadow"
+            />
+            {userData && (
+              <>
+                <h1 className="text-xl font-bold text-cyan-400">{userData.username}</h1>
+                <p className="text-xs text-gray-400">{userData.email}</p>
+              </>
+            )}
           </div>
 
-
-
+          {/* User Info */}
           {userData ? (
-            <div className="text-left space-y-3 w-max mx-auto">
-              <div className="balance-style p-5">
-                <p className="text-3xl">Balance: ₹{userData.balance}</p>
+            <div className="mt-6 space-y-4">
+              {/* Balance */}
+              <div className="bg-cyan-900/40 rounded-md p-3 text-center shadow">
+                <p className="text-sm font-semibold">
+                  Balance: <span className="text-green-400">₹{userData.balance}</span>
+                </p>
               </div>
-              <div className="line  border-black w-[25vw] border-t-[0.5px]"></div>
-              <div className="location flex flex-row gap-1 p-3">
-                <div className="location-logo h-6 w-6 pt-1 ">
-                  <img src="   https://cdn-icons-png.flaticon.com/512/3179/3179068.png " alt="" />
-                </div>
-                <div className="location-place text-2xl ">
-                  <p>Mumbai</p>
-                </div>
-              </div>
-              <div className="line  border-black w-[25vw] border-t-[0.5px]"></div>
 
-              <div className="helpandsupport flex flex-row gap-3 pl-5 p-3">
-                <div className="hands-svg">
-                  <img className="h-7 w-7" src="https://www.svgrepo.com/show/192522/customer-service-support.svg" alt="" />
-                </div>
-                <div className="help-support text-2xl font-semibold">
-                  <p>Help & support</p>
-                </div>
+              {/* Static Info */}
+              <div className="flex gap-2 items-center text-xs text-cyan-300">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/3179/3179068.png"
+                  alt="Location"
+                  className="w-4 h-4"
+                />
+                <span>Mumbai</span>
               </div>
-              <div className="line  border-black w-[25vw] border-t-[0.5px]"></div>
 
-              <h3 className="font-semibold mt-5 text-2xl">Order History</h3>
-              {userData.orders.length > 0 ? (
-                <div className="overflow-x-auto mt-4">
-                  <table className="min-w-full bg-white border border-gray-200 shadow-md rounded-md">
-                    <thead>
-                      <tr className="bg-blue-100 text-blue-800">
-                        <th className="py-2 px-4 border-b">#</th>
-                        <th className="py-2 px-4 border-b">Event</th>
-                        <th className="py-2 px-4 border-b">Amount</th>
-                        <th className="py-2 px-4 border-b">Outcome</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {userData.orders.map((order, index) => (
-                        <tr key={index} className="text-center hover:bg-blue-50 transition">
-                          <td className="py-2 px-4 border-b">{index + 1}</td>
-                          <td className="py-2 px-4 border-b">{order.eventId}</td>
-                          <td className="py-2 px-4 border-b">₹{order.amount}</td>
-                          <td className="py-2 px-4 border-b">{order.outcome}</td>
+              <div className="flex gap-2 items-center text-xs text-cyan-300 hover:text-cyan-200 cursor-pointer">
+                <img
+                  src="https://www.svgrepo.com/show/192522/customer-service-support.svg"
+                  alt="Support"
+                  className="w-5 h-5"
+                />
+                <span>Help & Support</span>
+              </div>
+
+              {/* Orders */}
+              <div>
+                <h3 className="text-sm font-medium text-cyan-400 mb-2">Order History</h3>
+                {userData.orders.length > 0 ? (
+                  <div className="overflow-x-auto border border-cyan-800 rounded-md">
+                    <table className="w-full text-[11px]">
+                      <thead className="bg-cyan-900/60">
+                        <tr>
+                          <th className="py-1 px-2 text-left">#</th>
+                          <th className="py-1 px-2 text-left">Event</th>
+                          <th className="py-1 px-2 text-left">₹</th>
+                          <th className="py-1 px-2 text-left">Result</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <p>No orders found</p>
-              )}
-
+                      </thead>
+                      <tbody>
+                        {userData.orders.map((order, index) => (
+                          <tr key={index} className="hover:bg-cyan-800/20">
+                            <td className="px-2 py-1">{index + 1}</td>
+                            <td className="px-2 py-1">{order.eventId}</td>
+                            <td className="px-2 py-1">₹{order.amount}</td>
+                            <td className="px-2 py-1">{order.outcome}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="text-xs italic text-gray-500">No orders yet</p>
+                )}
+              </div>
             </div>
           ) : (
-            <p>Loading...</p>
+            <p className="text-center text-cyan-400 text-sm mt-8 animate-pulse">Loading...</p>
           )}
         </div>
       </div>
     </div>
-
   );
 };
 

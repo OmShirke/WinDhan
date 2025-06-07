@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
 import EventDetails from "./EventDetails.js";
 import Navbar from "./navbar.js";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Events(props) {
   const navigate = useNavigate();
-    const user = props.user;
-    const logout = () => {
-      localStorage.clear();
-      window.location.reload();
-    };
+  const user = props.user;
+  const logout = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
   const { eventDetail, setEventDetail } = props;
   const [events, setEvents] = useState([""]);
   const [descriptions, setDescriptions] = useState([]);
 
-  // Fetching events from the server
-  // and setting the state
   const getResponse = async () => {
     const response = await fetch("http://localhost:5000/worker/event", {
       method: "GET",
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: { "content-type": "application/json" },
     });
     const json = await response.json();
     if (response.status === 200) {
@@ -36,55 +32,75 @@ function Events(props) {
 
   return (
     <>
-    <Navbar user={user} onLogout={logout} />
-    <div className="w-full h-full mt-14 ">
-      <div className="text-center text-2xl font-medium text-blue-500">
-        Events
+      <Navbar user={user} onLogout={logout} />
+
+      {/* Back Button with transparent background */}
+
+      <div className="w-full min-h-screen pt-14 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-200">
+         <div className="px-4 pt-4">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center text-cyan-400 hover:text-cyan-200 font-semibold text-sm"
+        >
+          {/* Simple left arrow SVG */}
+          <svg
+            className="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          Back to Home
+        </button>
       </div>
-      <div
-        className={`p-20 w-full  items-center flex  flex-wrap gap-14 justify-center    ${eventDetail !== null ? "hidden " : ""
+        <div className="text-center text-2xl font-semibold text-purple-400 mb-6 drop-shadow-lg">
+          Events
+        </div>
+        <div
+          className={`p-4 w-full flex flex-wrap gap-6 justify-center ${
+            eventDetail !== null ? "hidden" : ""
           }`}
-      >
-        {events.length === 0 ? (
-          <p>No Events</p>
-        ) : (
-          events.map((event, index) => (
-            <div
-              onClick={() => {
-                setEventDetail(event);
-              }}
-              key={index}
-              className="bg-gray-100 shadow-md w-full md:w-1/2 md:ml-1/2 p-4 rounded-xl flex gap-4 flex-col text-center  "
-            >
-              <h1 className="font-bold text-2xl ">{event.title}</h1>
-              <div className="flex gap-10 w-full lg:w-1/2 self-center">
-                <button className="shadow-md bg-green-100 text-green-700 rounded-md   w-1/2 p-2  font-bold active:bg-green-200   hover:cursor-pointer self-center">
-                  {" "}
-                  Yes ₹{event.yes}
-                </button>
-                <button className="shadow-md bg-red-100 text-red-700 rounded-md w-1/2 p-2 font-bold active:bg-red-200   hover:cursor-pointer self-center">
-                  {" "}
-                  No ₹{event.no}
-                </button>
+        >
+          {events.length === 0 ? (
+            <p className="text-gray-400 text-lg">No Events</p>
+          ) : (
+            events.map((event, index) => (
+              <div
+                onClick={() => setEventDetail(event)}
+                key={index}
+                className="bg-gray-800 hover:bg-gray-700 cursor-pointer shadow-lg w-full sm:w-[300px] p-4 rounded-xl flex flex-col gap-3 text-center transition"
+              >
+                <h1 className="font-bold text-xl text-purple-300 drop-shadow">
+                  {event.title}
+                </h1>
+                <div className="flex gap-4 w-full justify-center">
+                  <button className="bg-green-700 text-green-300 rounded-md w-20 py-1.5 text-sm font-semibold hover:brightness-110 transition">
+                    ₹{event.yes}
+                  </button>
+                  <button className="bg-red-700 text-red-300 rounded-md w-20 py-1.5 text-sm font-semibold hover:brightness-110 transition">
+                    ₹{event.no}
+                  </button>
+                </div>
+                <p className="text-gray-400 italic text-xs">
+                  {event.startTime} - {event.endTime}
+                </p>
               </div>
-              <p className="text-slate-400">
-                Start-time-{event.startTime} end time-{event.endTime}
-              </p>
-            </div>
-          ))
+            ))
+          )}
+        </div>
+
+        {eventDetail && (
+          <EventDetails
+            event={eventDetail}
+            setEventDetail={setEventDetail}
+            descriptions={descriptions}
+          />
         )}
       </div>
-
-      {eventDetail !== null ? (
-        <EventDetails
-          event={eventDetail}
-          setEventDetail={setEventDetail}
-          descriptions={descriptions}
-        />
-      ) : (
-        <></>
-      )}
-    </div>
     </>
   );
 }
