@@ -11,6 +11,7 @@ import Allusers from "./components/admin/Allusers";
 import Alldeposit from "./components/admin/Alldeposit";
 import AllwithdrawRequests from "./components/admin/AllwithdrawRequests";
 import CloseEvent from "./components/admin/closeEvent"; // Import CloseEvent component
+import TransactionHistory from "./components/user/TransactionHistory"; // Import TransactionHistory component
 
 function App() {
   const [token, setToken] = useState();
@@ -83,6 +84,7 @@ function App() {
           path="/admin/withdraw-requests"
           element={<AllwithdrawRequests />}
         />
+        <Route path="/payment-history" element={<TransactionHistory />} />
       </Routes>
     </BrowserRouter>
   );
