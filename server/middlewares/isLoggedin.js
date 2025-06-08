@@ -29,8 +29,14 @@ const isLoggedin = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(error);
-    res.status(401).json({ success: false, message: "Unauthorized" });
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
+    } else if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 

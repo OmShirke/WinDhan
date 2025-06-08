@@ -11,7 +11,7 @@ function Events(props) {
     window.location.reload();
   };
   const { eventDetail, setEventDetail } = props;
-  const [events, setEvents] = useState([""]);
+  const [events, setEvents] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
 
   const getResponse = async () => {
@@ -34,32 +34,31 @@ function Events(props) {
     <>
       <Navbar user={user} onLogout={logout} />
 
-      {/* Back Button with transparent background */}
-
       <div className="w-full min-h-screen pt-14 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-gray-200">
-         <div className="px-4 pt-4">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center text-cyan-400 hover:text-cyan-200 font-semibold text-sm"
-        >
-          {/* Simple left arrow SVG */}
-          <svg
-            className="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
+        <div className="px-4 pt-4">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center text-cyan-400 hover:text-cyan-200 font-semibold text-sm"
           >
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          Back to Home
-        </button>
-      </div>
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Back to Home
+          </button>
+        </div>
+
         <div className="text-center text-2xl font-semibold text-purple-400 mb-6 drop-shadow-lg">
           Events
         </div>
+
         <div
           className={`p-4 w-full flex flex-wrap gap-6 justify-center ${
             eventDetail !== null ? "hidden" : ""
@@ -79,10 +78,10 @@ function Events(props) {
                 </h1>
                 <div className="flex gap-4 w-full justify-center">
                   <button className="bg-green-700 text-green-300 rounded-md w-20 py-1.5 text-sm font-semibold hover:brightness-110 transition">
-                    ₹{event.yes}
+                    Bet Yes
                   </button>
                   <button className="bg-red-700 text-red-300 rounded-md w-20 py-1.5 text-sm font-semibold hover:brightness-110 transition">
-                    ₹{event.no}
+                    Bet No
                   </button>
                 </div>
                 <p className="text-gray-400 italic text-xs">
