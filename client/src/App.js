@@ -10,6 +10,7 @@ import UserEvents from "./components/user/Events"; // Your Events component
 import Allusers from "./components/admin/Allusers"
 import Alldeposit from "./components/admin/Alldeposit"
 import AllwithdrawRequests from "./components/admin/AllwithdrawRequests"
+import TransactionHistory from "./components/user/TransactionHistory"
 
 function App() {
   const [token, setToken] = useState();
@@ -69,7 +70,9 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="/all-users" element={<Allusers />} />
         <Route path="/admin/deposit-requests" element={<Alldeposit />} />
-        <Route path="/admin/withdraw-requests" element={<AllwithdrawRequests/>} />
+        <Route path="/admin/withdraw-requests" element={<AllwithdrawRequests />} />
+        <Route path="/payment-history" element={<TransactionHistory />} />
+
       </Routes>
     </BrowserRouter>
   );

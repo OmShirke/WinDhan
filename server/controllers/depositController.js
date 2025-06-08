@@ -169,6 +169,31 @@ const approveOrRejectWithdrawRequest = async (req, res) => {
 };
 
 // ──────────────────────────────
+// New: Get user's approved deposits
+const getUserApprovedDeposits = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const deposits = await Deposit.find({ userId, status: "approved" }).sort({ createdAt: -1 });
+    res.status(200).json(deposits);
+  } catch (error) {
+    console.error("Error in getUserApprovedDeposits:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// New: Get user's approved withdraws
+const getUserApprovedWithdraws = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const withdraws = await Withdraw.find({ userId, status: "approved" }).sort({ createdAt: -1 });
+    res.status(200).json(withdraws);
+  } catch (error) {
+    console.error("Error in getUserApprovedWithdraws:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+// ──────────────────────────────
 module.exports = {
   getAllDepositRequests,
   postDepositRequests,
@@ -176,4 +201,6 @@ module.exports = {
   postWithdrawRequests,
   getAllWithdrawRequests,
   approveOrRejectWithdrawRequest,
+  getUserApprovedDeposits,
+  getUserApprovedWithdraws,
 };

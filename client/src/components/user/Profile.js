@@ -4,6 +4,7 @@ import Navbar2 from "./navbar2";
 import profilePic from "../pictures/profilePic.jpg";
 import UserDeposit from "./userDeposit";
 import UserWithdraw from "./userWithdraw";
+import QrDetails from "./QrDetails";
 
 
 const Profile = ({ user }) => {
@@ -11,10 +12,11 @@ const Profile = ({ user }) => {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.clear();
-    navigate("/Login");
+    localStorage.removeItem("token"); // 🔐 Clear auth token
+    navigate("/"); // 🏠 Redirect to homepage
   };
   const [showDeposit, setShowDeposit] = useState(false);
+  const [showQr, setshowQr] = useState(false)
   const [showWithdraw, setShowWithdraw] = useState(false);
 
   const fetchProfile = async () => {
@@ -143,6 +145,30 @@ const Profile = ({ user }) => {
 
                 </div>
               </div>
+              <div className="flex justify-center gap-4 mt-3">
+                {/* Payment History Button */}
+                <button
+                  onClick={() => navigate("/payment-history")}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-blue-600 text-white font-semibold text-xs rounded hover:bg-blue-500 transition"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+                  </svg>
+                  Payment History
+                </button>
+
+                {/* Logout Button */}
+                <button
+                  onClick={logout}
+                  className="flex items-center gap-1 px-3 py-1.5 bg-red-600 text-white font-semibold text-xs rounded hover:bg-red-500 transition"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
+                  </svg>
+                  Logout
+                </button>
+              </div>
+
 
 
               {/* Static Info */}
@@ -205,6 +231,9 @@ const Profile = ({ user }) => {
           onClose={() => setShowDeposit(false)}
           onDeposit={fetchProfile} // Refresh balance
         />
+      )}
+      {showDeposit && (
+        <QrDetails />
       )}
       {showWithdraw && (
         <UserWithdraw
