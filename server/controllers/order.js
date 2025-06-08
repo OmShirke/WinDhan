@@ -84,6 +84,7 @@ const order = async (req, res, next) => {
     const existing_event = await eventModel.findOne({
       _id: event._id || event,
     });
+    console.log(existing_event);
     if (!existing_event) {
       return res.status(404).json({ error: "Event not found" });
     }
@@ -113,6 +114,19 @@ const order = async (req, res, next) => {
     }
 
     await placeOrder(newOrder);
+    const amt = parseFloat(amount);
+
+    console.log("Before update:", existing_event.yes, existing_event.no);
+
+    if (option === "yes") {
+      existing_event.yes += amt;
+    } else {
+      existing_event.no += amt;
+    }
+
+    await existing_event.save();
+
+    console.log("After update:", existing_event.yes, existing_event.no);
 
     res.status(201).json({ msg: "success" });
   } catch (error) {
@@ -121,4 +135,47 @@ const order = async (req, res, next) => {
   }
 };
 
-module.exports = order;
+const getMultiplierPreview = async (req, res) => {
+  try {
+    const { eventId, option, amount } = req.query;
+
+    if (!eventId || !option || !amount) {
+      return res.status(400).json({ error: "Missing query params" });
+    }
+
+    const event = await eventModel.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    const yesAmount = event.yes || 0;
+    const noAmount = event.no || 0;
+    const total = yesAmount + noAmount;
+    const userAmount = parseFloat(amount);
+
+    let previewYes, previewNo;
+
+    if (option === "yes") {
+      previewYes = (total + userAmount) / (yesAmount + userAmount || 1);
+      previewNo = (total + userAmount) / (noAmount || 1);
+    } else {
+      previewYes = (total + userAmount) / (yesAmount || 1);
+      previewNo = (total + userAmount) / (noAmount + userAmount || 1);
+    }
+
+    res.json({
+      multiplier: {
+        yes: previewYes.toFixed(2),
+        no: previewNo.toFixed(2),
+      },
+    });
+  } catch (error) {
+    console.error("Error in getMultiplierPreview:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+module.exports = {
+  order,
+  getMultiplierPreview,
+};

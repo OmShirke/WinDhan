@@ -4,6 +4,8 @@ function Order(props) {
   const [token, setToken] = useState(null);
   const [amount, setAmount] = useState(10);
   const [option, setOption] = useState(props.option || "yes");
+  const [multiplier, setMultiplier] = useState(null);
+  const [loadingMultiplier, setLoadingMultiplier] = useState(false);
   const [success, setSuccess] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);
   const [dragging, setDragging] = useState(false);
@@ -63,6 +65,43 @@ function Order(props) {
     if (storedToken) setToken(JSON.parse(storedToken));
   }, []);
 
+  // Fetch multiplier preview on amount or option change
+  useEffect(() => {
+    if (!event?._id || !option || amount < 1) {
+      setMultiplier(null);
+      return;
+    }
+
+    async function fetchMultiplier() {
+      setLoadingMultiplier(true);
+      try {
+        const url = `http://localhost:5000/events/order/preview-multiplier?eventId=${event._id}&option=${option}&amount=${amount}`;
+        console.log("Fetching multiplier from:", url);
+        const res = await fetch(url);
+
+        if (res.ok) {
+          const data = await res.json();
+          if (
+            data.multiplier &&
+            typeof data.multiplier === "object" &&
+            option in data.multiplier
+          ) {
+            setMultiplier(data.multiplier[option]);
+          } else {
+            setMultiplier(null);
+          }
+        } else {
+          setMultiplier(null);
+        }
+      } catch {
+        setMultiplier(null);
+      } finally {
+        setLoadingMultiplier(false);
+      }
+    }
+    fetchMultiplier();
+  }, [event, option, amount]);
+
   const placeOrder = async () => {
     try {
       const response = await fetch("http://localhost:5000/events/order", {
@@ -74,7 +113,7 @@ function Order(props) {
         body: JSON.stringify({
           option,
           amount,
-          event,
+          event: event._id,
         }),
       });
 
@@ -162,20 +201,41 @@ function Order(props) {
       <hr className="h-[1.5px] w-full bg-gray-300" />
 
       {/* Amount Input */}
-      <div className="flex flex-row gap-2 items-center w-full justify-between">
-        <div className="text-sm font-medium">Amount :</div>
-        <input
-          type="number"
-          min={1}
-          value={amount}
-          onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
-          className="rounded-xl w-20 text-center border border-gray-300 outline-none focus:ring-2 focus:ring-green-400 text-xs"
-        />
+      <div className="flex flex-col gap-1 w-full justify-between items-center">
+        <div className="flex flex-row gap-2 items-center w-full justify-between">
+          <div className="text-sm font-medium">Amount :</div>
+          <input
+            type="number"
+            min={1}
+            value={amount}
+            onChange={(e) => setAmount(Math.max(1, Number(e.target.value)))}
+            className="rounded-xl w-20 text-center border border-gray-300 outline-none focus:ring-2 focus:ring-green-400 text-xs"
+          />
+        </div>
+
+        <div className="text-xs text-gray-600 mt-1">
+          {loadingMultiplier ? (
+            "Loading multiplier..."
+          ) : multiplier ? (
+            <>
+              Multiplier for {option.toUpperCase()}:{" "}
+              <span className="font-bold">
+                {typeof multiplier === "number"
+                  ? multiplier.toFixed(2)
+                  : multiplier}
+                x
+              </span>
+            </>
+          ) : (
+            "Multiplier not available"
+          )}
+        </div>
       </div>
 
       <button
         onClick={placeOrder}
-        className="shadow-md bg-yellow-400 text-gray-900 rounded-lg w-36 p-1.5 font-semibold hover:bg-yellow-500 active:bg-yellow-600 transition select-none text-xs"
+        disabled={loadingMultiplier || !multiplier || amount < 1}
+        className="shadow-md bg-yellow-400 disabled:bg-yellow-200 disabled:text-gray-600 text-gray-900 rounded-lg w-36 p-1.5 font-semibold hover:bg-yellow-500 active:bg-yellow-600 transition select-none text-xs"
       >
         Place Order
       </button>

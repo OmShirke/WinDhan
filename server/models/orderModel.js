@@ -20,6 +20,10 @@ const orderSchema = mongoose.Schema({
     enum: ["yes", "no"],
     required: true,
   },
+  multiplierAtPlacement: {
+    type: Number,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
