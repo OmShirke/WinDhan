@@ -12,6 +12,7 @@ function Order(props) {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const offsetRef = useRef({ x: 0, y: 0 });
   const popupRef = useRef(null);
+  const [wallet, setWallet] = useState(0);
 
   const event = props.event;
 
@@ -62,10 +63,26 @@ function Order(props) {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
-    if (storedToken) setToken(JSON.parse(storedToken));
+    if (storedToken) {
+      const parsed = JSON.parse(storedToken);
+      setToken(parsed);
+
+      fetch("http://localhost:5000/api/user/profile", {
+        headers: {
+          Authorization: `Bearer ${parsed}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Profile response:", data);
+          setWallet(data.balance || 0);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch profile:", err);
+        });
+    }
   }, []);
 
-  // Fetch multiplier preview on amount or option change
   useEffect(() => {
     if (!event?._id || !option || amount < 1) {
       setMultiplier(null);
@@ -76,9 +93,7 @@ function Order(props) {
       setLoadingMultiplier(true);
       try {
         const url = `http://localhost:5000/events/order/preview-multiplier?eventId=${event._id}&option=${option}&amount=${amount}`;
-        console.log("Fetching multiplier from:", url);
         const res = await fetch(url);
-
         if (res.ok) {
           const data = await res.json();
           if (
@@ -170,7 +185,6 @@ function Order(props) {
         </svg>
       </div>
 
-      {/* Option Selector */}
       <div className="flex text-center gap-4 w-full">
         {["yes", "no"].map((opt) => (
           <div className="flex-1" key={opt}>
@@ -200,7 +214,6 @@ function Order(props) {
 
       <hr className="h-[1.5px] w-full bg-gray-300" />
 
-      {/* Amount Input */}
       <div className="flex flex-col gap-1 w-full justify-between items-center">
         <div className="flex flex-row gap-2 items-center w-full justify-between">
           <div className="text-sm font-medium">Amount :</div>
@@ -230,11 +243,19 @@ function Order(props) {
             "Multiplier not available"
           )}
         </div>
+
+        {amount > wallet && (
+          <div className="text-red-500 font-semibold text-xs mt-1">
+            ❌ Amount exceeds wallet balance (₹{wallet})
+          </div>
+        )}
       </div>
 
       <button
         onClick={placeOrder}
-        disabled={loadingMultiplier || !multiplier || amount < 1}
+        disabled={
+          loadingMultiplier || !multiplier || amount < 1 || amount > wallet
+        }
         className="shadow-md bg-yellow-400 disabled:bg-yellow-200 disabled:text-gray-600 text-gray-900 rounded-lg w-36 p-1.5 font-semibold hover:bg-yellow-500 active:bg-yellow-600 transition select-none text-xs"
       >
         Place Order

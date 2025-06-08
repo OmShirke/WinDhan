@@ -7,9 +7,10 @@ import AdminEvents from "./components/admin/AllEvents";
 import CreateEvent from "./components/admin/createEvent";
 import Profile from "./components/user/Profile";
 import UserEvents from "./components/user/Events"; // Your Events component
-import Allusers from "./components/admin/Allusers"
-import Alldeposit from "./components/admin/Alldeposit"
-import AllwithdrawRequests from "./components/admin/AllwithdrawRequests"
+import Allusers from "./components/admin/Allusers";
+import Alldeposit from "./components/admin/Alldeposit";
+import AllwithdrawRequests from "./components/admin/AllwithdrawRequests";
+import CloseEvent from "./components/admin/closeEvent"; // Import CloseEvent component
 
 function App() {
   const [token, setToken] = useState();
@@ -58,18 +59,30 @@ function App() {
           <>
             <Route index element={<AdminEvents />} />
             <Route path="/createEvent" element={<CreateEvent />} />
+            <Route path="/admin/close-event" element={<CloseEvent />} />
           </>
         ) : (
           <Route index element={<Home user={user} />} />
         )}
         <Route path="profile" element={<Profile />} />
         {/* ✅ Pass props here */}
-        <Route path="events" element={<UserEvents eventDetail={eventDetail} setEventDetail={setEventDetail} />} />
+        <Route
+          path="events"
+          element={
+            <UserEvents
+              eventDetail={eventDetail}
+              setEventDetail={setEventDetail}
+            />
+          }
+        />
         <Route path="login" element={<Login setToken={setToken} />} />
         <Route path="signup" element={<Signup />} />
         <Route path="/all-users" element={<Allusers />} />
         <Route path="/admin/deposit-requests" element={<Alldeposit />} />
-        <Route path="/admin/withdraw-requests" element={<AllwithdrawRequests/>} />
+        <Route
+          path="/admin/withdraw-requests"
+          element={<AllwithdrawRequests />}
+        />
       </Routes>
     </BrowserRouter>
   );

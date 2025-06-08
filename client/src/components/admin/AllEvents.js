@@ -26,18 +26,23 @@ function Events() {
   }, [eventDialog]);
 
   const handleDelete = async (eventId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this event?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this event?"
+    );
     if (!confirmDelete) return;
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`http://localhost:5000/api/delete-event/${eventId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${JSON.parse(token)}`,
-        },
-      });
+      const res = await fetch(
+        `http://localhost:5000/api/delete-event/${eventId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${JSON.parse(token)}`,
+          },
+        }
+      );
 
       if (res.ok) {
         alert("Event deleted successfully.");
@@ -69,6 +74,14 @@ function Events() {
           >
             💰 Deposit Requests
           </button>
+
+          <button
+            onClick={() => navigate("/admin/close-event")}
+            className="flex items-center bg-orange-600 hover:bg-orange-500 text-sm px-3 py-2 rounded-lg shadow shadow-orange-800 transition"
+          >
+            Close Event
+          </button>
+
           <button
             className="flex items-center bg-cyan-700 hover:bg-cyan-600 text-sm px-3 py-2 rounded-lg shadow shadow-cyan-900 transition"
             onClick={() => navigate("/admin/withdraw-requests")}

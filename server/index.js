@@ -35,8 +35,6 @@ app.use("/api/admin", require("./routes/adminroute.js"));
 app.use("/api/deposits", require("./routes/userDepositRoute.js"));
 app.use("/api/delete-event", require("./routes/eventRoute.js"));
 
-
-
 // Routes
 const authRoute = require("./routes/authRoute.js");
 const eventRoute = require("./routes/eventRoute.js");

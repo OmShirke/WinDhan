@@ -8,6 +8,8 @@ const eventSchema = mongoose.Schema({
   endTime: { type: String },
   filedata: { type: Buffer },
   totalAmount: { type: Number, default: 0 },
+  closed: { type: Boolean, default: false }, // new
+  outcome: { type: String, enum: ["yes", "no", null], default: null }, // new
 });
 
 const eventModel = mongoose.model("event", eventSchema);

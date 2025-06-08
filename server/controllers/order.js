@@ -1,6 +1,7 @@
 const orderModel = require("../models/orderModel");
 const orderBookModel = require("../models/orderBookmodel");
 const eventModel = require("../models/eventModel");
+const userModel = require("../models/userModel");
 
 async function matchOrder(newOrder, orderbook) {
   const oppositeBook = newOrder.option === "yes" ? orderbook.no : orderbook.yes;
@@ -81,10 +82,24 @@ const order = async (req, res, next) => {
       return res.status(400).json({ error: "Incomplete input" });
     }
 
-    const existing_event = await eventModel.findOne({
-      _id: event._id || event,
-    });
-    console.log(existing_event);
+    const amt = parseFloat(amount);
+
+    // Fetch full user doc from DB to update balance
+    const fullUser = await userModel.findById(user._id);
+    if (!fullUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if user has enough balance
+    if (fullUser.balance < amt) {
+      return res.status(400).json({ error: "Insufficient balance" });
+    }
+
+    // Deduct balance
+    fullUser.balance -= amt;
+    await fullUser.save();
+
+    const existing_event = await eventModel.findById(event._id || event);
     if (!existing_event) {
       return res.status(404).json({ error: "Event not found" });
     }
@@ -110,13 +125,16 @@ const order = async (req, res, next) => {
           no: [newOrder],
         });
       }
+    } else {
+      if (newOrder.option === "yes") {
+        orderbook.yes.push(newOrder);
+      } else {
+        orderbook.no.push(newOrder);
+      }
       await orderbook.save();
     }
 
     await placeOrder(newOrder);
-    const amt = parseFloat(amount);
-
-    console.log("Before update:", existing_event.yes, existing_event.no);
 
     if (option === "yes") {
       existing_event.yes += amt;
@@ -125,8 +143,6 @@ const order = async (req, res, next) => {
     }
 
     await existing_event.save();
-
-    console.log("After update:", existing_event.yes, existing_event.no);
 
     res.status(201).json({ msg: "success" });
   } catch (error) {

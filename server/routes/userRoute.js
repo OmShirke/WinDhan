@@ -7,12 +7,11 @@ const router = express.Router();
 router.get("/profile", isLoggedin, async (req, res) => {
   try {
     const user = await userModel.findById(req.user._id).select("-password");
+    console.log("Fetched user profile:", user);
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch profile" });
   }
 });
-
-
 
 module.exports = router;
