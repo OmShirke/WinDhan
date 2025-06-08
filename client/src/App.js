@@ -8,6 +8,8 @@ import CreateEvent from "./components/admin/createEvent";
 import Profile from "./components/user/Profile";
 import UserEvents from "./components/user/Events"; // Your Events component
 import Allusers from "./components/admin/Allusers"
+import Alldeposit from "./components/admin/Alldeposit"
+import AllwithdrawRequests from "./components/admin/AllwithdrawRequests"
 
 function App() {
   const [token, setToken] = useState();
@@ -66,6 +68,8 @@ function App() {
         <Route path="login" element={<Login setToken={setToken} />} />
         <Route path="signup" element={<Signup />} />
         <Route path="/all-users" element={<Allusers />} />
+        <Route path="/admin/deposit-requests" element={<Alldeposit />} />
+        <Route path="/admin/withdraw-requests" element={<AllwithdrawRequests/>} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,5 @@
 const eventModel = require("../models/eventModel");
+
 const createEvent = async (req, res, next) => {
   try {
     const { title, yes, no, startTime, endTime, description } = req.body;
@@ -32,6 +33,7 @@ const createEvent = async (req, res, next) => {
   }
   next();
 };
+
 const showEvent = async (req, res, next) => {
   try {
     const events = await eventModel.find();
@@ -51,4 +53,24 @@ const showEvent = async (req, res, next) => {
   next();
 };
 
-module.exports = { createEvent, showEvent };
+// ✅ New: Delete Event Controller
+const deleteEvent = async (req, res, next) => {
+  try {
+    const eventId = req.params.id;
+
+    const deleted = await eventModel.findByIdAndDelete(eventId);
+    if (!deleted) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    return res.status(200).json({ message: "Event deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports = {
+  createEvent,
+  showEvent,
+  deleteEvent,
+};

@@ -31,7 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookies());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/api/admin", require("./routes/adminroute.js")); 
+app.use("/api/admin", require("./routes/adminroute.js"));
+app.use("/api/deposits", require("./routes/userDepositRoute.js"));
+app.use("/api/delete-event", require("./routes/eventRoute.js"));
+
 
 
 // Routes

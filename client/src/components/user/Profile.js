@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar2 from "./navbar2";
 import profilePic from "../pictures/profilePic.jpg";
+import UserDeposit from "./userDeposit";
+import UserWithdraw from "./userWithdraw";
+
 
 const Profile = ({ user }) => {
   const [userData, setUserData] = useState(null);
@@ -11,6 +14,8 @@ const Profile = ({ user }) => {
     localStorage.clear();
     navigate("/Login");
   };
+  const [showDeposit, setShowDeposit] = useState(false);
+  const [showWithdraw, setShowWithdraw] = useState(false);
 
   const fetchProfile = async () => {
     try {
@@ -85,11 +90,60 @@ const Profile = ({ user }) => {
           {userData ? (
             <div className="mt-6 space-y-4">
               {/* Balance */}
-              <div className="bg-cyan-900/40 rounded-md p-3 text-center shadow">
+              <div className="bg-cyan-900/40 rounded-md p-4 shadow space-y-3 text-center">
                 <p className="text-sm font-semibold">
                   Balance: <span className="text-green-400">₹{userData.balance}</span>
                 </p>
+
+
+                <div className="flex justify-center gap-4">
+                  {/* Deposit Button */}
+                  <button
+                    onClick={() => setShowDeposit(true)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-green-500 text-black font-semibold text-xs rounded hover:bg-green-400 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                    Deposit
+                  </button>
+
+                  <button
+                    onClick={() => setShowWithdraw(true)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-yellow-400 text-black font-semibold text-xs rounded hover:bg-yellow-300 transition"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 20V4m0 0L8 8m4-4l4 4"
+                      />
+                    </svg>
+                    Withdraw
+                  </button>
+
+
+                </div>
               </div>
+
 
               {/* Static Info */}
               <div className="flex gap-2 items-center text-xs text-cyan-300">
@@ -146,6 +200,21 @@ const Profile = ({ user }) => {
           )}
         </div>
       </div>
+      {showDeposit && (
+        <UserDeposit
+          onClose={() => setShowDeposit(false)}
+          onDeposit={fetchProfile} // Refresh balance
+        />
+      )}
+      {showWithdraw && (
+        <UserWithdraw
+          onClose={() => setShowWithdraw(false)}
+          onWithdraw={fetchProfile} // refresh balance
+          balance={userData.balance}
+        />
+      )}
+
+
     </div>
   );
 };
