@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 
 const UserDepositRequests = () => {
     const [requests, setRequests] = useState([]);
+    const API = process.env.REACT_APP_BACKEND_URL;
 
     const fetchRequests = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:4008/api/deposits/get-deposit-requests", {
+            const res = await fetch(`${API}/api/deposits/get-deposit-requests`, {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(token)}`,
                 },
@@ -24,7 +25,7 @@ const UserDepositRequests = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch(`http://localhost:4008/api/deposits/approve-request/${id}/${action}`, {
+            const res = await fetch(`${API}/api/deposits/approve-request/${id}/${action}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

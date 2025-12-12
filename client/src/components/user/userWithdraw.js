@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const UserWithdraw = ({ onClose, onWithdraw, balance }) => {
   const [amount, setAmount] = useState("");
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const handleSubmit = async () => {
     const withdrawAmount = parseFloat(amount);
@@ -18,7 +19,7 @@ const UserWithdraw = ({ onClose, onWithdraw, balance }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:4008/api/deposits/post-withdraw-requests", {
+      const res = await fetch(`${API}/api/deposits/post-withdraw-requests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

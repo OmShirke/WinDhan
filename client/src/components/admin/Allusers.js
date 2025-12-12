@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 export default function AllUsers() {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const API = process.env.REACT_APP_BACKEND_URL;
 
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem("token"));
         const fetchUsers = async () => {
-            const res = await fetch("http://localhost:4008/api/admin/allusers", {
+            const res = await fetch(`${API}/api/admin/allusers`, {
                 headers: {
                     "Content-Type": "application/json",
                     // "auth-token": token,
@@ -26,7 +27,7 @@ export default function AllUsers() {
         const confirm = window.confirm("Are you sure you want to delete this user?");
         if (!confirm) return;
 
-        const res = await fetch(`http://localhost:4008/api/admin/deleteuser/${userId}`, {
+        const res = await fetch(`${API}/api/admin/deleteuser/${userId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -111,7 +112,7 @@ export default function AllUsers() {
                                             <button
                                                 onClick={async () => {
                                                     const res = await fetch(
-                                                        `http://localhost:4008/api/admin/updatebalance/${user._id}`,
+                                                        `${API}/api/admin/updatebalance/${user._id}`,
                                                         {
                                                             method: "PUT",
                                                             headers: {

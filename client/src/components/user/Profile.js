@@ -10,6 +10,7 @@ import QrDetails from "./QrDetails";
 const Profile = ({ user }) => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const logout = () => {
     localStorage.removeItem("token"); // 🔐 Clear auth token
@@ -24,7 +25,7 @@ const Profile = ({ user }) => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:4008/api/user/profile", {
+      const response = await fetch(`${API}/api/user/profile`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

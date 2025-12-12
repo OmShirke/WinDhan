@@ -3,13 +3,14 @@ import React, { useState } from "react";
 
 const UserDeposit = ({ onClose, onDeposit }) => {
   const [amount, setAmount] = useState("");
-  const [transactionId, setTransactionId] = useState(""); // Added
+  const [transactionId, setTransactionId] = useState(""); 
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const handleDeposit = async () => {
     const token = localStorage.getItem("token");
     if (!token) return alert("Not authenticated");
 
-    const res = await fetch("http://localhost:4008/api/deposits/post-deposit-requests", {
+    const res = await fetch(`${API}/api/deposits/post-deposit-requests`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

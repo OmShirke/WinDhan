@@ -17,14 +17,15 @@ function App() {
   const [token, setToken] = useState();
   const [user, setUser] = useState();
   const [role, setRole] = useState();
-  const [eventDetail, setEventDetail] = useState(null); // 👈 Add this line
+  const [eventDetail, setEventDetail] = useState(null);
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const getResponse = async () => {
     const storedToken = localStorage.getItem("token");
     if (!storedToken) return;
 
     const token = JSON.parse(storedToken);
-    const response = await fetch("http://localhost:4008/user", {
+    const response = await fetch(`${API}/user`, {
       method: "GET",
       headers: {
         "content-type": "application/json",

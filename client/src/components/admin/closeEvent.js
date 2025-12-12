@@ -5,10 +5,11 @@ export default function CloseEvent() {
   const [selectedEvent, setSelectedEvent] = useState("");
   const [outcome, setOutcome] = useState("no");
   const [message, setMessage] = useState("");
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   // Fetch open events for admin to close
   useEffect(() => {
-    fetch("http://localhost:4008/api/admin/open-events", {
+    fetch(`${API}/api/admin/open-events`, {
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
@@ -28,7 +29,7 @@ export default function CloseEvent() {
     }
     try {
       const res = await fetch(
-        `http://localhost:4008/api/admin/close-event/${selectedEvent}`,
+        `${API}/api/admin/close-event/${selectedEvent}`,
         {
           method: "PUT",
           headers: {

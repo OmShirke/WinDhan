@@ -7,10 +7,11 @@ function Events() {
   const [eventDialog, setEventDialog] = useState(false);
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("http://localhost:4008/worker/event", {
+      const response = await fetch(`${API}/worker/event`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -34,7 +35,7 @@ function Events() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:4008/api/delete-event/${eventId}`,
+        `${API}/api/delete-event/${eventId}`,
         {
           method: "DELETE",
           headers: {

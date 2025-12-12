@@ -13,9 +13,10 @@ function Events(props) {
   const { eventDetail, setEventDetail } = props;
   const [events, setEvents] = useState([]);
   const [descriptions, setDescriptions] = useState([]);
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const getResponse = async () => {
-    const response = await fetch("http://localhost:4008/worker/event", {
+    const response = await fetch(`${API}/worker/event`, {
       method: "GET",
       headers: { "content-type": "application/json" },
     });

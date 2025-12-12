@@ -13,6 +13,7 @@ function Order(props) {
   const offsetRef = useRef({ x: 0, y: 0 });
   const popupRef = useRef(null);
   const [wallet, setWallet] = useState(0);
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const event = props.event;
 
@@ -67,7 +68,7 @@ function Order(props) {
       const parsed = JSON.parse(storedToken);
       setToken(parsed);
 
-      fetch("http://localhost:4008/api/user/profile", {
+      fetch(`${API}/api/user/profile`, {
         headers: {
           Authorization: `Bearer ${parsed}`,
         },
@@ -92,7 +93,7 @@ function Order(props) {
     async function fetchMultiplier() {
       setLoadingMultiplier(true);
       try {
-        const url = `http://localhost:4008/events/order/preview-multiplier?eventId=${event._id}&option=${option}&amount=${amount}`;
+        const url = `${API}/events/order/preview-multiplier?eventId=${event._id}&option=${option}&amount=${amount}`;
         const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
@@ -119,7 +120,7 @@ function Order(props) {
 
   const placeOrder = async () => {
     try {
-      const response = await fetch("http://localhost:4008/events/order", {
+      const response = await fetch(`${API}/events/order`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -9,6 +9,7 @@ export default function Signup() {
   const [match, setMatch] = useState(true);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -16,7 +17,7 @@ export default function Signup() {
       setMatch(false);
       return;
     }
-    const res = await fetch("http://localhost:4008/api/auth/signup", {
+    const res = await fetch(`${API}/api/auth/signup`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email, username, password }),

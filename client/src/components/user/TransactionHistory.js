@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 const UserHistory = () => {
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
-      const navigate = useNavigate();
+    const navigate = useNavigate();
+  const API = process.env.REACT_APP_BACKEND_URL;
     
 
     const fetchHistory = async () => {
@@ -17,7 +18,7 @@ const UserHistory = () => {
             };
 
             // ✅ Fetch user-approved deposits
-            const depositRes = await fetch("http://localhost:4008/api/deposits/user-approved-deposits", {
+            const depositRes = await fetch(`${API}/api/deposits/user-approved-deposits`, {
                 method: "GET",
                 headers,
             });
@@ -30,7 +31,7 @@ const UserHistory = () => {
             }));
 
             // ✅ Fetch user-approved withdraws
-            const withdrawRes = await fetch("http://localhost:4008/api/deposits/user-approved-withdraws", {
+            const withdrawRes = await fetch(`${API}/api/deposits/user-approved-withdraws`, {
                 method: "GET",
                 headers,
             });

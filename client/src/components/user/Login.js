@@ -6,11 +6,13 @@ export default function Login(props) {
   const [password, setPassword] = useState();
   const [invalid, setInvalid] = useState(false);
   const [success, setSuccess] = useState(false);
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const navigate = useNavigate();
+
   const loginUser = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:4008/api/auth/login", {
+    const response = await fetch(`${API}/api/auth/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -102,7 +104,7 @@ export default function Login(props) {
             id="password"
             name="password"
             type="password"
-            minLength={8}
+            // minLength={8}
             required
             onChange={(e) => {
               setPassword(e.target.value);

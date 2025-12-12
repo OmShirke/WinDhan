@@ -7,10 +7,11 @@ export default function CreateEvent(props) {
   const [description, setDescription] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const API = process.env.REACT_APP_BACKEND_URL;
 
   const eventSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:4008/worker/event", {
+    const response = await fetch(`${API}/worker/event`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ title, yes, no, startTime, endTime, description }),
