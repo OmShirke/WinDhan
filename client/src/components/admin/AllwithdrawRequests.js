@@ -7,7 +7,7 @@ const UserWithdrawRequests = () => {
     const fetchRequests = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await fetch("http://localhost:5000/api/deposits/get-withdraw-requests", {
+            const res = await fetch("http://localhost:4008/api/deposits/get-withdraw-requests", {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(token)}`,
                 },
@@ -24,7 +24,7 @@ const UserWithdrawRequests = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch(`http://localhost:5000/api/deposits/approve-withdraw-request/${id}/${action}`, {
+            const res = await fetch(`http://localhost:4008/api/deposits/approve-withdraw-request/${id}/${action}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

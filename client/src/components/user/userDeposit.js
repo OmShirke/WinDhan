@@ -9,7 +9,7 @@ const UserDeposit = ({ onClose, onDeposit }) => {
     const token = localStorage.getItem("token");
     if (!token) return alert("Not authenticated");
 
-    const res = await fetch("http://localhost:5000/api/deposits/post-deposit-requests", {
+    const res = await fetch("http://localhost:4008/api/deposits/post-deposit-requests", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

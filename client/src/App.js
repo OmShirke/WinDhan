@@ -24,7 +24,7 @@ function App() {
     if (!storedToken) return;
 
     const token = JSON.parse(storedToken);
-    const response = await fetch("http://localhost:5000/user", {
+    const response = await fetch("http://localhost:4008/user", {
       method: "GET",
       headers: {
         "content-type": "application/json",

@@ -8,7 +8,7 @@ export default function AllUsers() {
     useEffect(() => {
         const token = JSON.parse(localStorage.getItem("token"));
         const fetchUsers = async () => {
-            const res = await fetch("http://localhost:5000/api/admin/allusers", {
+            const res = await fetch("http://localhost:4008/api/admin/allusers", {
                 headers: {
                     "Content-Type": "application/json",
                     // "auth-token": token,
@@ -26,7 +26,7 @@ export default function AllUsers() {
         const confirm = window.confirm("Are you sure you want to delete this user?");
         if (!confirm) return;
 
-        const res = await fetch(`http://localhost:5000/api/admin/deleteuser/${userId}`, {
+        const res = await fetch(`http://localhost:4008/api/admin/deleteuser/${userId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function AllUsers() {
                                             <button
                                                 onClick={async () => {
                                                     const res = await fetch(
-                                                        `http://localhost:5000/api/admin/updatebalance/${user._id}`,
+                                                        `http://localhost:4008/api/admin/updatebalance/${user._id}`,
                                                         {
                                                             method: "PUT",
                                                             headers: {

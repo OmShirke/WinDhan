@@ -7,7 +7,7 @@ function TrendingEvents(props) {
   const [descriptions, setDescriptions] = useState([]);
 
   const getResponse = async () => {
-    const response = await fetch("http://localhost:5000/worker/event", {
+    const response = await fetch("http://localhost:4008/worker/event", {
       method: "GET",
       headers: {
         "content-type": "application/json",

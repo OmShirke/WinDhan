@@ -16,7 +16,7 @@ export default function Signup() {
       setMatch(false);
       return;
     }
-    const res = await fetch("http://localhost:5000/api/auth/signup", {
+    const res = await fetch("http://localhost:4008/api/auth/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ email, username, password }),

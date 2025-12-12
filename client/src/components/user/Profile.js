@@ -24,7 +24,7 @@ const Profile = ({ user }) => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:5000/api/user/profile", {
+      const response = await fetch("http://localhost:4008/api/user/profile", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

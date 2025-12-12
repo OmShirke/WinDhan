@@ -17,7 +17,7 @@ const UserHistory = () => {
             };
 
             // ✅ Fetch user-approved deposits
-            const depositRes = await fetch("http://localhost:5000/api/deposits/user-approved-deposits", {
+            const depositRes = await fetch("http://localhost:4008/api/deposits/user-approved-deposits", {
                 method: "GET",
                 headers,
             });
@@ -30,7 +30,7 @@ const UserHistory = () => {
             }));
 
             // ✅ Fetch user-approved withdraws
-            const withdrawRes = await fetch("http://localhost:5000/api/deposits/user-approved-withdraws", {
+            const withdrawRes = await fetch("http://localhost:4008/api/deposits/user-approved-withdraws", {
                 method: "GET",
                 headers,
             });

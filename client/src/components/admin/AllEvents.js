@@ -10,7 +10,7 @@ function Events() {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("http://localhost:5000/worker/event", {
+      const response = await fetch("http://localhost:4008/worker/event", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -34,7 +34,7 @@ function Events() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `http://localhost:5000/api/delete-event/${eventId}`,
+        `http://localhost:4008/api/delete-event/${eventId}`,
         {
           method: "DELETE",
           headers: {

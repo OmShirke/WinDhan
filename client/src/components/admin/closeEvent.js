@@ -8,7 +8,7 @@ export default function CloseEvent() {
 
   // Fetch open events for admin to close
   useEffect(() => {
-    fetch("http://localhost:5000/api/admin/open-events", {
+    fetch("http://localhost:4008/api/admin/open-events", {
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem("token"))}`,
       },
@@ -28,7 +28,7 @@ export default function CloseEvent() {
     }
     try {
       const res = await fetch(
-        `http://localhost:5000/api/admin/close-event/${selectedEvent}`,
+        `http://localhost:4008/api/admin/close-event/${selectedEvent}`,
         {
           method: "PUT",
           headers: {
