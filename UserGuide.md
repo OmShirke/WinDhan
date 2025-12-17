@@ -7,7 +7,7 @@ cd server
 # install dependencies
 npm install
 
-# create a .env file in server folder and add you mongodb credentials
+# create a .env file in server folder and add your mongodb credentials
 MONGODB=<Your MongoDB connection string>
 PORT=4000
 
